@@ -81,6 +81,7 @@ GoogleResult:
     self.link # The external link
     self.google_link # The google link
     self.description # The description of the link
+    self.missing_terms # The search terms that don't appear on the search result
     self.thumb # The link to a thumbnail of the website (NOT implemented yet)
     self.cached # A link to the cached version of the page
     self.page # What page this result was on (When searching more than one page)

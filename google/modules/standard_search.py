@@ -22,6 +22,7 @@ class GoogleResult(object):
         self.link = None  # The external link
         self.google_link = None  # The google link
         self.description = None  # The description of the link
+        self.missing_terms = None  # The search terms that don't appear on the search result
         self.thumb = None  # Thumbnail link of website (NOT implemented yet)
         self.cached = None  # Cached version link of page
         self.page = None  # Results page this one was on
@@ -86,6 +87,7 @@ def search(query, pages=1, lang='en', area='com', ncr=False, void=True, time_per
                 res.link = _get_link(li)
                 res.google_link = _get_google_link(li)
                 res.description = _get_description(li)
+                res.missing_terms = _get_missing_terms(li)
                 res.thumb = _get_thumb()
                 res.cached = _get_cached(li)
                 res.number_of_results = number_of_results
@@ -194,6 +196,19 @@ def _get_description(li):
     else:
         return None
 
+def _get_missing_terms(li):
+    """Return the description of a google search.
+
+    TODO: There are some text encoding problems to resolve."""
+
+    sdiv = li.find("div", attrs={"class": "TXwUJf"})
+    if sdiv:
+        missing_terms = []
+        for s in sdiv.findAll("s"):
+            missing_terms.append(s.text.strip())
+        return missing_terms
+    else:
+        return None
 
 def _get_thumb():
     """Return the link to a thumbnail of the website."""
